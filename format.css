@@ -1,0 +1,51 @@
+body 
+{
+    height: 1800px;
+    background-color: orange;
+    background-image: linear-gradient(180deg, red, orange, yellow)
+    
+}
+
+.center 
+{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+.profile 
+{
+    width: 150px;
+    height: 150px;
+}
+.tables
+{
+    border:4px solid;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+    background-image: linear-gradient(75deg,rgb(242, 39, 242),purple);
+
+}
+.twitch
+{
+    content:url(Images/twitch.jpg);
+    height: 100px;
+    
+}
+.superTable
+{
+    width: 100%;
+    
+    
+}
+.linkBack
+{
+    background-color: white;
+    background-image: radial-gradient(red);
+}
+.centerText
+{
+    text-align:center;
+}
