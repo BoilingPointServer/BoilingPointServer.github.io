@@ -1,5 +1,5 @@
 var superTable = {
-    windowWidth : 100,
+    windowWidth : window.innerWidth,
     validRange :{low:0,high:0},
     div :   document.getElementById("myDynamicTable"),
     members: []
@@ -13,8 +13,16 @@ function Initialize(){
 }
 
 function GenSuperTable(){
+    let count = 1;
     let table = document.createElement('TABLE');
     table.className = "superTable";
+
+    let elementWidth = 350;
+    let pagewidth = superTable.windowWidth;
+    let elementsPerLine = Math.floor(pagewidth/elementWidth) ;
+    console.log(elementsPerLine + " this the number")
+    superTable.validRange.low = elementsPerLine * elementWidth;
+    superTable.validRange.high = (elementsPerLine*elementWidth) + 349; 
 
     let tableBody = document.createElement('TBODY');
     table.appendChild(tableBody);
@@ -28,6 +36,15 @@ function GenSuperTable(){
         let td = document.createElement('TD');
         td.appendChild(streamer);
         tr.appendChild(td);
+        count++;
+        if(count > elementsPerLine)
+        {
+            tr = document.createElement('TR');
+            tableBody.appendChild(tr);
+            count = 1;
+        }
+        
+
     });
     return table;
 }
@@ -63,39 +80,53 @@ function rebuildSuperTable() {
         tableBody.className = "tables"
     
         let topRow = document.createElement('tr');
-        {
-            let cell = document.createElement('td');
+            let cell1 = document.createElement('td');
+            topRow.appendChild(cell1);
             let profilePic = document.createElement('img');
+            cell1.appendChild(profilePic);
             profilePic.src = Streamer.profile;
             profilePic.className = "profile";
             profilePic.alt = Streamer.name;
-            cell.appendChild(profilePic);
-            topRow.appendChild(cell);
-        }
     
-        {
-            let cell = document.createElement('td');
+            let cell2 = document.createElement('td');
+            topRow.appendChild(cell2);
             let name = document.createElement('p');
+            cell2.appendChild(name);
             name.innerHTML = Streamer.name;
-            name.class     ="centerText";
-            cell.appendChild(name);
+            name.className ="centerText";
+            //TODO - don't add nulls for twitch links
             let twitchLink = document.createElement('a');
+            cell2.appendChild(twitchLink);
             twitchLink.href = Streamer.twitchLink;
+            twitchLink.target = "_blank";
             let twitchPic = document.createElement('img');
-            twitchPic.className = "twitch";
             twitchLink.appendChild(twitchPic);
-            cell.appendChild(twitchLink);
-            topRow.appendChild(cell);
-        }
+            twitchPic.className = "twitch";
 
         tableBody.appendChild(topRow)
         let bottomRow = document.createElement('tr');
-    
+        tableBody.appendChild(bottomRow);
+        //TODO implement bottom row of table
+        let cell3 = document.createElement('td');
+        bottomRow.appendChild(cell3);
+        cell3.colSpan = 2;
+        let Video = document.createElement('video');
+        Video.className = "introSize";
+        Video.autoplay = true;
+        Video.loop = true;
+        Video.muted = true;
+        cell3.appendChild(Video);
+        let source = document.createElement('source');
+        source.src = Streamer.introVideo; 
+        source.type = "video/mp4";
+        Video.appendChild(source);
+
         return tableBody;
     }
 
     function WindowResize(){
         let pageWidth = window.innerWidth;
+        superTable.windowWidth = window.innerWidth; 
         console.log("The window has been resized so Width:"+ pageWidth);
 
         if(!SuperTableValid()){
